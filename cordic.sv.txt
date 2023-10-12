@@ -1,0 +1,46 @@
+// Code your design here
+module cordic (input clk, output reg signed [20:0] out);
+    reg signed [20:0] angle [0:14];
+    assign angle[0]=45000;
+    assign angle[1]=26565;
+    assign angle[2]=14036;
+    assign angle[3]=7125;
+    assign angle[4]=3576;
+    assign angle[5]=1790;
+    assign angle[6]=895;
+    assign angle[7]=448;
+    assign angle[8]=224;
+    assign angle[9]=112;
+    assign angle[10]=56;
+    assign angle[11]=28;
+    assign angle[12]=14;
+    assign angle[13]=7;
+    assign angle[14]=3;
+  
+  genver i;
+  for(i=0; i<=90000; i=i+1) begin
+    reg signed [20:0] xi;
+    reg signed [20:0] xi1;
+    reg signed [20:0] yi;
+    reg signed [20:0] yi1;
+    reg signed [20:0] curAngle;
+    assign xi=607254;
+    assign yi=0;
+    assign curAngle=i;
+    genver j;
+    for(j=0; j<15; j=j+1) begin
+        if(curAngle>0) begin
+            xi1=xi-yi>>>i
+            yi1=yi+xi>>>i
+            curAngle=curAngle-angle[i];
+        end
+        else begin
+            xi1=xi+yi>>>i
+            yi1=yi-xi>>>i
+            curAngle=curAngle+angle[i];
+        end
+        xi=xi1;
+        yi=yi1;
+    end
+    out = yi;
+  end  
